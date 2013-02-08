@@ -1,0 +1,80 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]--> <!--[if IE 7 ]>    <html lang="en" class="ie7"> <![endif]--> <!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]--> <!--[if IE 9 ]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+  <script src="raphael-min.js"></script>
+  <script>
+    var rect, paper = Raphael(0, 0, 2000, 3000);
+    for(var i = 0; i < 1000; i++) {
+/*      if(Math.floor(Math.random() * 3)) {
+        rect = paper.rect(i * 3, 0, 1, 3000);
+        rect.attr({
+          fill: "110-#ff0-#00f:10-#f60000",
+          'stroke-opacity': 0
+        });
+      }
+      */
+    }
+
+    window.onload = function () {
+      var canvas = document.getElementById("canvas"),
+          ctx = canvas.getContext('2d'),
+          img = new Image(),
+          yOff = 0,
+          imgs = ['name.gif'];//, 'vik-2.jpg' ];
+
+      img.onload = function () {
+        var i = 0, j = 0, p, gr, unit, hex;
+
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+
+        for(; i < img.width; i += 2) {
+          for(j = 0; j < img.height; j += 2) {
+            p = ctx.getImageData(i, j, 2, 2).data;
+            gr = ((p[0] * .21) + (p[1] * .71) + (p[2] * .07));
+            hex = "#fff";
+            if(gr < 130) {
+              hex = "#999";
+            } 
+
+            if(gr < 90) {
+              hex = "#000";
+            } 
+
+            unit = 4 + Math.floor(Math.random() * 20);
+            rect = paper.rect(yOff + (i * 3) , j * 3 , 1, unit);
+            rect.attr({
+              fill: hex,
+              'stroke-opacity': 0
+            });
+          }
+        }
+
+        if(imgs.length) {
+          yOff += 120;
+          img.src = imgs.shift();
+        } else {
+          canvas.parentNode.removeChild(canvas);
+        }
+      }
+
+      img.src = imgs.shift();
+    };
+
+  </script>
+  <canvas id='canvas' width='2000' height='3000'></canvas>
+</body>
+</html>
