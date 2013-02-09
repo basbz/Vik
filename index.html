@@ -15,51 +15,60 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <script src="raphael-min.js"></script>
+  <script src="raphael.export.js"></script>
   <script>
-    var rect, paper = Raphael(0, 0, 2000, 3000);
+    var rect, xx = [], paper = Raphael(0, 0, 2000, 3000);
     for(var i = 0; i < 1000; i++) {
-/*      if(Math.floor(Math.random() * 3)) {
-        rect = paper.rect(i * 3, 0, 1, 3000);
+      if(Math.floor(Math.random() * 6)) {
+        xx.push(i);
+        rect = paper.rect(i * 6, 0, 2, 3000);
         rect.attr({
-          fill: "110-#ff0-#00f:10-#f60000",
+          //fill: "110-#ff0-#00f:10-#f60000",
+          fill: "#def",
           'stroke-opacity': 0
         });
       }
-      */
     }
+    console.log(xx);
 
     window.onload = function () {
       var canvas = document.getElementById("canvas"),
           ctx = canvas.getContext('2d'),
           img = new Image(),
           yOff = 0,
-          imgs = ['name.gif'];//, 'vik-2.jpg' ];
+          imgs = ['name.gif', 'vik-2.jpg' ];
 
       img.onload = function () {
-        var i = 0, j = 0, p, gr, unit, hex;
+        var i, x = 0, l = xx.length - 1, j = 0, p, gr, unit, hex;
 
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        for(; i < img.width; i += 2) {
-          for(j = 0; j < img.height; j += 2) {
-            p = ctx.getImageData(i, j, 2, 2).data;
-            gr = ((p[0] * .21) + (p[1] * .71) + (p[2] * .07));
-            hex = "#fff";
-            if(gr < 130) {
-              hex = "#999";
-            } 
+        for(; x < l; x += 1) {
+          i = xx[x];
+          if(i < img.width) {
+            for(j = 0; j < img.height; j += 2) {
+              p = ctx.getImageData(i, j, 2, 2).data;
+              gr = ((p[0] * .21) + (p[1] * .71) + (p[2] * .07));
+              hex = "#fff";
+              if(gr < 130) {
+                hex = "#789";
+              } 
 
-            if(gr < 90) {
-              hex = "#000";
-            } 
+              if(gr < 90) {
+                hex = "#009fe3";
+              } 
 
-            unit = 4 + Math.floor(Math.random() * 20);
-            rect = paper.rect(yOff + (i * 3) , j * 3 , 1, unit);
-            rect.attr({
-              fill: hex,
-              'stroke-opacity': 0
-            });
+              unit = 4 + Math.floor(Math.random() * 36);
+              if(hex !== '#fff') {
+              rect = paper.rect(yOff + (i * 6) , j * 6 , 2, unit);
+              rect.attr({
+                fill: hex,
+                'stroke-opacity': 0
+              });
+            }
+            }
           }
         }
 
@@ -68,9 +77,11 @@
           img.src = imgs.shift();
         } else {
           canvas.parentNode.removeChild(canvas);
+          console.log(paper.toSVG());
         }
       }
 
+      delete img.onload;
       img.src = imgs.shift();
     };
 
