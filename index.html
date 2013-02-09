@@ -19,32 +19,48 @@
   <script src="raphael-min.js"></script>
   <script src="raphael.export.js"></script>
   <script>
-    var rect, xx = [], paper = Raphael(0, 0, 2000, 3000);
-    for(var i = 0; i < 1000; i++) {
-      if(Math.floor(Math.random() * 6)) {
-        xx.push(i);
-        /*rect = paper.rect(i * 6, 0, 2, 3000);
-        rect.attr({
-          //fill: "110-#ff0-#00f:10-#f60000",
-          //fill: "#d4edfc",
-          fill: "#f90",
-          'stroke-opacity': 0
-        });*/
-      }
-    }
-    console.log(xx);
-
-    window.onload = function () {
-      var canvas = document.getElementById("canvas"),
-          ctx = canvas.getContext('2d'),
+    $(document).ready(function () {
+      var xx = [], 
+          buffer = $('#buffer')[0],
+          canvas = $('#canvas')[0],
           img = new Image(),
-          yOff = 0,
-          imgs = ['name-2.gif'];
+          bctx = buffer.getContext('2d'),
+          cctx = canvas.getContext('2d'),
+          imgs = ['kings.gif'];
 
-      img.onload = function () {
-        var i, x = 0, l = xx.length - 1, j = 0, p, gr, unit, hex;
+      for(var i = 0; i < 1000; i++) {
+        if(Math.floor(Math.random() * 6)) {
+          xx.push(i);
+        }
+      }
 
-        ctx.drawImage(img, 0, 0, img.width, img.height);
+      function imgLoad () {
+        var x = 0, l = xx.length, i, l, p;
+
+        bctx.drawImage(img, 0, 0, img.width, img.height);
+
+        for(; x < l; x += 1) {
+          i = xx[x];
+          if(i < img.width) {
+            for(j = 0; j < img.height; j += 2) {
+              p = bctx.getImageData(i, j, 2, 2).data;
+              gr = ((p[0] * .21) + (p[1] * .71) + (p[2] * .07));
+              
+              unit = 4 + Math.floor(Math.random() * 36);
+              if(gr < 120) {
+                cctx.fillRect(i * 6 , j * 6 , 2, unit);
+              } 
+            }
+          }
+        }   
+      }
+
+      img.onload = imgLoad;
+
+      img.src = imgs.shift();
+    });
+      /*var i, x = 0, l = xx.length - 1, j = 0, p, gr, unit, hex;
+
 
         for(; x < l; x += 1) {
           i = xx[x];
@@ -79,14 +95,9 @@
         } else {
           canvas.parentNode.removeChild(canvas);
           console.log(paper.toSVG());
-        }
-      }
-
-      delete img.onload;
-      img.src = imgs.shift();
-    };
-
+        } */
   </script>
+  <canvas id='buffer' width='2000' height='3000'></canvas>
   <canvas id='canvas' width='2000' height='3000'></canvas>
 </body>
 </html>
