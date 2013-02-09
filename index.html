@@ -23,12 +23,13 @@
     for(var i = 0; i < 1000; i++) {
       if(Math.floor(Math.random() * 6)) {
         xx.push(i);
-        rect = paper.rect(i * 6, 0, 2, 3000);
+        /*rect = paper.rect(i * 6, 0, 2, 3000);
         rect.attr({
           //fill: "110-#ff0-#00f:10-#f60000",
-          fill: "#def",
+          //fill: "#d4edfc",
+          fill: "#f90",
           'stroke-opacity': 0
-        });
+        });*/
       }
     }
     console.log(xx);
@@ -38,7 +39,7 @@
           ctx = canvas.getContext('2d'),
           img = new Image(),
           yOff = 0,
-          imgs = ['name.gif', 'vik-2.jpg' ];
+          imgs = ['name-2.gif'];
 
       img.onload = function () {
         var i, x = 0, l = xx.length - 1, j = 0, p, gr, unit, hex;
@@ -52,11 +53,11 @@
               p = ctx.getImageData(i, j, 2, 2).data;
               gr = ((p[0] * .21) + (p[1] * .71) + (p[2] * .07));
               hex = "#fff";
-              if(gr < 130) {
-                hex = "#789";
-              } 
+              //if(gr < 130) {
+               // hex = "#82d0f5";
+              //} 
 
-              if(gr < 90) {
+              if(gr < 120) {
                 hex = "#009fe3";
               } 
 
