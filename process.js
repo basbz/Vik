@@ -49,11 +49,13 @@ $(document).ready(function () {
     $buffer.attr({width: w, height: h});
     bctx.drawImage(img, 0, 0, w, h);
 
-    h *= step
-    w *= step
+    h *= step;
+    w *= step;
 
     $canvas.attr({width: w, height: h});
 
+    cctx.fillStyle = '#ffffff'; 
+    cctx.fillRect(0, 0, w, h);
     loop = setInterval(function () {
       var x = 0, l = xx.length, i, p, rbga;
       if(j < h) {
