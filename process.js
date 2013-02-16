@@ -6,10 +6,18 @@ $(document).ready(function () {
       src, paper,
       bctx = buffer.getContext('2d'),
       cctx = canvas.getContext('2d'),
-      step = Number(window.location.hash.split('=')[1]) || 4,
+      spec = {}, step, scale,
       imgs = ['kings.gif'];
 
-  console.log(step);
+  window.location.hash.substr(1).split('&').forEach(function (params) {
+    var param = params.split('=');
+    spec[param[0]] = Number(param[1]);
+  });
+
+  step = spec.step || 4;
+  scale = spec.scale || 1;
+
+  console.log(step, scale);
   
 
   function grayscale (color) {
@@ -19,21 +27,23 @@ $(document).ready(function () {
     } else {
       if (gr < 255 && gr > 200) {
         gr = 255;
-      }
-      if (gr < 200 && gr > 150) {
-        gr = 200;
-      }
-      if (gr < 150 && gr > 100) {
-        gr = 150;
-      }
-
-      if (gr < 100 && gr > 50) {
-        gr = 100;
-      }
-
-      if (gr < 100) {
+      } else {
         gr = 0;
       }
+      //if (gr < 200 && gr > 150) {
+        //gr = 200;
+      //}
+      //if (gr < 150 && gr > 100) {
+        //gr = 150;
+      //}
+
+      //if (gr < 100 && gr > 50) {
+        //gr = 100;
+      //}
+
+      //if (gr < 100) {
+        //gr = 0;
+      //}
     }
     return "rgba(" + gr + "," + gr + "," + gr + ",1)";
   }
@@ -49,8 +59,8 @@ $(document).ready(function () {
     $buffer.attr({width: w, height: h});
     bctx.drawImage(img, 0, 0, w, h);
 
-    h *= step;
-    w *= step;
+    h *= scale;
+    w *= scale;
 
     $canvas.attr({width: w, height: h});
 
@@ -64,7 +74,7 @@ $(document).ready(function () {
           if(i < w) {
              cctx.fillStyle = grayscale(bctx.getImageData(i, j, step, step).data);
              unit = 2 + Math.floor(Math.random() * 38);
-             cctx.fillRect(i * step , j * step, 1, unit);
+             cctx.fillRect(i * scale, j * scale, 1, unit);
           } 
         }
         j += step;
