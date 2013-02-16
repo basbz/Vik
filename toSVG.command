@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php 
-fwrite(STDOUT,  "Voer de rasterafstand in (4 is standaard): ");
-$step = trim(fgets(STDIN));
-fwrite(STDOUT, "De rasterafstand staat op: $step, begin met omzetten naar vectoren \r\n");
+
+$step = 1;
+fwrite(STDOUT, "Omzetten naar vectoren \r\n");
 
 chdir( dirname ( __FILE__ ) );
 $file = 'download.png';
