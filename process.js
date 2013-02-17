@@ -19,33 +19,17 @@ $(document).ready(function () {
 
   console.log(step, scale);
   
+  function isRed(color) {
+    return Number(color[0]) > 127 &&  Number(color[1]) < 127 && Number(color[2]) < 127;
+  }
 
   function grayscale (color) {
     var gr = (Math.round(color[0] * 0.21) + Math.round(color[1] * 0.71) + Math.round(color[2] * 0.07));
-    if(! Math.floor(Math.random() * 36)) {
-      gr = 255;
+    if(! Math.floor(Math.random() * 36) || gr > 235) {
+      return "rgba(255, 255, 255, 1)";
     } else {
-      if (gr < 255 && gr > 200) {
-        gr = 255;
-      } else {
-        gr = 0;
-      }
-      //if (gr < 200 && gr > 150) {
-        //gr = 200;
-      //}
-      //if (gr < 150 && gr > 100) {
-        //gr = 150;
-      //}
-
-      //if (gr < 100 && gr > 50) {
-        //gr = 100;
-      //}
-
-      //if (gr < 100) {
-        //gr = 0;
-      //}
+      return "rgba(0, 0, 0, 1)";
     }
-    return "rgba(" + gr + "," + gr + "," + gr + ",1)";
   }
 
   function imgLoad () {
@@ -72,9 +56,14 @@ $(document).ready(function () {
         for(; x < l; x += step) {
           i = xx[x];
           if(i < w) {
-             cctx.fillStyle = grayscale(bctx.getImageData(i, j, step, step).data);
-             unit = 2 + Math.floor(Math.random() * 38);
-             cctx.fillRect(i * scale, j * scale, 1, unit);
+            p = bctx.getImageData(i, j, step, step).data;
+            if(isRed(p)) {
+              cctx.fillStyle = "rgba(255, 0, 0,1)";
+            } else {
+              cctx.fillStyle = grayscale(p);
+            }
+            unit = 2 + Math.floor(Math.random() * 38);
+            cctx.fillRect(i * scale, j * scale, 1, unit);
           } 
         }
         j += step;
