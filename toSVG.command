@@ -12,12 +12,20 @@ $h = $spec[1];
 
 $original = imagecreatefrompng($file);
 
-function fromR($R){
+function fromR($R, $G, $B){
   $R = dechex($R);
   if (strlen($R) < 2) {
      $R = "0$R";
   }
-  return "#$R$R$R";
+  $G = dechex($G);
+  if (strlen($G) < 2) {
+     $G = "0$G";
+  }
+  $B = dechex($B);
+  if (strlen($B) < 2) {
+     $B = "0$B";
+  }
+  return "#$R$G$B";
 }
 $handle = fopen("export/export.svg", "w+");
 ob_start();
@@ -34,7 +42,7 @@ ob_start();
 
       $index = imagecolorat($original, $x, $y);
       $rgb = imagecolorsforindex($original, $index);
-      $hex = fromR($rgb['red']);
+      $hex = fromR($rgb['red'], $rgb['green'], $rgb['blue']);
       if($hex != $color) {
         if($color != '#ffffff') {
           $height = $y - $off;
