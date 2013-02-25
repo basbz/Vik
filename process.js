@@ -14,7 +14,7 @@ $(document).ready(function () {
     spec[param[0]] = Number(param[1]);
   });
 
-  step = spec.step || 4;
+  step = spec.step || 6;
   scale = spec.scale || 1;
 
   console.log(step, scale);
