@@ -17,7 +17,6 @@ $(document).ready(function () {
   step = spec.step || 6;
   scale = spec.scale || 1;
 
-  console.log(step, scale);
   
   function isRed(color) {
     return Number(color[0]) > 127 &&  Number(color[1]) < 127 && Number(color[2]) < 127;
@@ -67,10 +66,8 @@ $(document).ready(function () {
           } 
         }
         j += step;
-        console.log('loop: ' + j);
       } else {
         clearInterval(loop);
-        console.log('parsed');
         $canvas.remove();
         $buffer.remove();
         src = canvas.toDataURL("image/png");
